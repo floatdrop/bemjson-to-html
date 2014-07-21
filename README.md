@@ -24,3 +24,12 @@ Returns serialized HTML string.
 ## License
 
 MIT (c) [Vesvolod Strukchinsky](floatdrop@gmail.com)
+
+[npm-url]: https://npmjs.org/package/bemjson-to-html
+[npm-image]: http://img.shields.io/npm/v/bemjson-to-html.svg
+
+[travis-url]: https://travis-ci.org/floatdrop/bemjson-to-html
+[travis-image]: http://img.shields.io/travis/floatdrop/bemjson-to-html.svg
+
+[depstat-url]: https://david-dm.org/floatdrop/bemjson-to-html
+[depstat-image]: https://david-dm.org/floatdrop/bemjson-to-html.svg?theme=shields.io
