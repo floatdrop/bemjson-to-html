@@ -1,6 +1,6 @@
 {
   "name": "bemjson-to-html",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "BEMJSON to HTML serializer",
   "main": "index.js",
   "scripts": {
