@@ -13,12 +13,12 @@ Returns serialized HTML string.
 
 ```
                       simple
-         123,607 op/s » bemhtml-to-html
-          78,114 op/s » bh
+         103,677 op/s » bemhtml-to-html
+          79,221 op/s » bh
 
                       full
-          41,462 op/s » bemhtml-to-html
-          20,750 op/s » bh
+          36,352 op/s » bemhtml-to-html
+          20,359 op/s » bh
 ```
 
 ## License
