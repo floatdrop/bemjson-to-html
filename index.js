@@ -107,7 +107,7 @@ function serialize(bemjson) {
     var res = '<' + bemjson.tag + classes(bemjson) + attributes(bemjson);
 
     if (bemjson.hasMixJsParams) {
-        var jsData = JSON.stringify(bemjson.jsParams);
+        var jsData = JSON.stringify(bemjson.jsParams).replace('"', '&quot;');
         res += ' ' + bemjson.jsAttr + '="' + (bemjson.jsAttr === _optJsAttrIsJs ? 'return ' + jsData : jsData) + '"';
     }
 
