@@ -66,9 +66,9 @@ function fillJsParamsFromMixins(json) {
     for (var i = 0; i < mixes.length; i++) {
         var mix = mixes[i];
         if (mix.js) {
+            json.jsParams = json.jsParams || {};
             mix.js = mix.js === true ? {} : mix.js;
             json.jsParams[(mix.block || json.block) + (mix.elem ? '__' + mix.elem : '')] = mix.js;
-            json.hasMixJsParams = true;
         }
     }
 
@@ -94,20 +94,19 @@ function serialize(bemjson) {
         return concatinateArray(bemjson);
     }
 
-    bemjson.jsParams = {};
-    bemjson.tag = bemjson.tag || _defaultTag;
-    bemjson.jsAttr = bemjson.jsAttr || _optJsAttrIsJs;
-
     if (bemjson.js) {
+        bemjson.jsParams = bemjson.jsParams || {};
         bemjson.jsParams[bemjson.block + (bemjson.elem ? '__' + bemjson.elem : '')] = bemjson.js === true ? {} : bemjson.js;
     }
 
     fillJsParamsFromMixins(bemjson);
 
+    bemjson.tag = bemjson.tag || _defaultTag;
     var res = '<' + bemjson.tag + classes(bemjson) + attributes(bemjson);
 
-    if (bemjson.hasMixJsParams) {
+    if (bemjson.jsParams || bemjson.hasMixJsParams) {
         var jsData = JSON.stringify(bemjson.jsParams).replace(/"/g, '&quot;');
+        bemjson.jsAttr = bemjson.jsAttr || _optJsAttrIsJs;
         res += ' ' + bemjson.jsAttr + '="' + (bemjson.jsAttr === _optJsAttrIsJs ? 'return ' + jsData : jsData) + '"';
     }
 
