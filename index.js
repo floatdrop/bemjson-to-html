@@ -1,25 +1,5 @@
 var escape = require('./escape.js');
 
-function isSelfClosingTag(tag) {
-    return tag === 'area' ||
-        tag === 'base' ||
-        tag === 'br' ||
-        tag === 'col' ||
-        tag === 'command' ||
-        tag === 'embed' ||
-        tag === 'hr' ||
-        tag === 'img' ||
-        tag === 'input' ||
-        tag === 'keygen' ||
-        tag === 'link' ||
-        tag === 'menuitem' ||
-        tag === 'meta' ||
-        tag === 'param' ||
-        tag === 'source' ||
-        tag === 'track' ||
-        tag === 'wbr';
-}
-
 function bemClasses(bemjson, block) {
     block = bemjson.block || block;
     if (bemjson.bem === false || !block) { return ''; }
@@ -28,8 +8,10 @@ function bemClasses(bemjson, block) {
     var res = base;
     var mods = bemjson.mods || bemjson.elem && bemjson.elemMods;
 
-    for (var i in mods) {
-        res += ' ' + base + '_' + i + (mods[i] === true ? '' : '_' + mods[i]);
+    if (mods) {
+        for (var i in mods) {
+            res += ' ' + base + '_' + i + (mods[i] === true ? '' : '_' + mods[i]);
+        }
     }
 
     if (bemjson.mix) {
@@ -57,7 +39,6 @@ function attributes(json) {
     }
     return attrs;
 }
-
 
 function fillJsParamsFromMixins(json) {
     if (!json.mix) { return; }
@@ -110,7 +91,25 @@ function serialize(bemjson) {
         res += ' ' + bemjson.jsAttr + '="' + (bemjson.jsAttr === _optJsAttrIsJs ? 'return ' + jsData : jsData) + '"';
     }
 
-    if (isSelfClosingTag(bemjson.tag)) { return res + '/>'; }
+    var tag = bemjson.tag;
+    if (tag === 'area' ||
+        tag === 'base' ||
+        tag === 'br' ||
+        tag === 'col' ||
+        tag === 'command' ||
+        tag === 'embed' ||
+        tag === 'hr' ||
+        tag === 'img' ||
+        tag === 'input' ||
+        tag === 'keygen' ||
+        tag === 'link' ||
+        tag === 'menuitem' ||
+        tag === 'meta' ||
+        tag === 'param' ||
+        tag === 'source' ||
+        tag === 'track' ||
+        tag === 'wbr') { return res + '/>'; }
+
     return res + '>' + serialize(bemjson.content || '') + '</' + bemjson.tag + '>';
 }
 

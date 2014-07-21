@@ -12,13 +12,13 @@ Returns serialized HTML string.
 ## Benchmark
 
 ```
-                      simple
-         103,677 op/s » bemhtml-to-html
-          79,221 op/s » bh
+                     simple
+         121,493 op/s » bemhtml-to-html
+          78,714 op/s » bh
 
                       full
-          36,352 op/s » bemhtml-to-html
-          20,359 op/s » bh
+          29,569 op/s » bemhtml-to-html
+          19,800 op/s » bh
 ```
 
 ## License

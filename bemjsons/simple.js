@@ -1,6 +1,9 @@
 module.exports = {
     block: 'html',
     tag: 'html',
+    mods: {
+        five: 'yes'
+    },
     attrs: {
         id: 'someid',
         data: 'onclick-replace',
