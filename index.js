@@ -99,7 +99,7 @@ function serialize(bemjson) {
     bemjson.jsAttr = bemjson.jsAttr || _optJsAttrIsJs;
 
     if (bemjson.js) {
-        bemjson.jsParams[bemjson.block + (bemjson.elem ? '__' + bemjson.elem : '')] = bemjson.js;
+        bemjson.jsParams[bemjson.block + (bemjson.elem ? '__' + bemjson.elem : '')] = bemjson.js === true ? {} : bemjson.js;
     }
 
     fillJsParamsFromMixins(bemjson);
