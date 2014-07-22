@@ -13,16 +13,23 @@ Returns serialized HTML string.
 
 ```
                       trivial
-       4,733,692 op/s » bemhtml-to-html
-       2,324,310 op/s » bh
+       4,285,259 op/s » bemhtml-to-html
+       2,251,371 op/s » bh
 
                       simple
-         113,435 op/s » bemhtml-to-html
-          75,653 op/s » bh
+         115,874 op/s » bemhtml-to-html
+          76,086 op/s » bh
 
                       full
-          30,295 op/s » bemhtml-to-html
-          20,691 op/s » bh
+          29,617 op/s » bemhtml-to-html
+          19,726 op/s » bh
+
+                      stringify
+       1,302,816 op/s » stringify (no escaping)
+         743,184 op/s » stringify (escaped with replace)
+         394,414 op/s » stringify (escaped)
+         334,502 op/s » bemhtml-to-html
+         200,157 op/s » bh
 ```
 
 ## License
