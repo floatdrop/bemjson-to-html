@@ -9,7 +9,4 @@ describe('attributes rendering', function () {
         bemjson2html(bemjson)
         .should.equal('<div class=\"checkbox\" type=\"button\" disabled=\"false\" value=\"null\"></div>');
     });
-
 });
-
-
