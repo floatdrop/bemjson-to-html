@@ -24,8 +24,8 @@ function bemClasses(bemjson, block) {
 }
 
 function classes(bemjson) {
-    var cls = bemjson.cls || '';
-    cls += bemClasses(bemjson);
+    var cls = bemClasses(bemjson);
+    if (bemjson.cls) { cls += ' ' + bemjson.cls; }
     if (bemjson.hasJsParams) { cls += ' i-bem'; }
     if (cls === '') { return ''; }
     return ' class="' + escape(cls) + '"';
