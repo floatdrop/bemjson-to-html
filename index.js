@@ -6,7 +6,7 @@ function bemClasses(bemjson, block) {
 
     var base = block + (bemjson.elem ? '__' + bemjson.elem : '');
     var res = base;
-    var mods = bemjson.mods || bemjson.elem && bemjson.elemMods;
+    var mods = bemjson.elem ? bemjson.elemMods : bemjson.mods;
 
     if (mods) {
         for (var i in mods) {
