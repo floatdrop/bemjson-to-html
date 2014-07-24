@@ -14,14 +14,14 @@ describe('serialize', function() {
                 '',
                 { content: false }, // `div` is here
                 { tag: false }
-            ]).should.equal('<div></div>');
+            ]).should.equal('falsenullundefined<div></div>');
         });
     });
 
     describe('attrs', function() {
-        it('should ignore null attrs', function() {
+        it('should not ignore null attrs', function() {
             bemjson.toHtml({ block: 'button', tag: 'a', attrs: { href: null } }).should.equal(
-                '<a class="button"></a>'
+                '<a class="button" href="null"></a>'
             );
         });
         it('should not ignore empty attrs', function() {
@@ -34,17 +34,17 @@ describe('serialize', function() {
     describe('mods', function() {
         it('should ignore null mods', function() {
             bemjson.toHtml({ block: 'button', tag: 'a', mods: { type: null } }).should.equal(
-                '<a class="button"></a>'
+                '<a class="button button_type_null"></a>'
             );
         });
         it('should ignore empty mods', function() {
             bemjson.toHtml({ block: 'button', tag: 'a', mods: { type: '' } }).should.equal(
-                '<a class="button"></a>'
+                '<a class="button button_type_"></a>'
             );
         });
         it('should not ignore boolean mods', function() {
             bemjson.toHtml({ block: 'button', mods: { visible: false, disabled: true } }).should.equal(
-                '<button class="button button_disabled"></button>'
+                '<div class="button button_visible_false button_disabled"></div>'
             );
         });
     });
@@ -60,12 +60,12 @@ describe('serialize', function() {
             bemjson.toHtml({ block: 'button', mix: [{elem: 'mix'}] }).should.equal('<div class="button button__mix"></div>');
         });
         it('should set mods mix', function() {
-            bemjson.toHtml({ block: 'button', mods: [{ disabled: true, theme: 'normal' }] }).should.equal(
-                '<div class="button button_disabled button_theme_normal"></div>'
+            bemjson.toHtml({ block: 'button', mix: [ { mods: { disabled: true, theme: 'normal' } }]}).should.equal(
+                '<div class="button  button_disabled button_theme_normal"></div>'
             );
         });
         it('should set elem mods mix', function() {
-            bemjson.toHtml({ block: 'button', mix: [{ elem: 'control', mods: { disabled: true } }] }).should.equal(
+            bemjson.toHtml({ block: 'button', mix: [{ elem: 'control', elemMods: { disabled: true } }] }).should.equal(
                 '<div class="button button__control button__control_disabled"></div>'
             );
         });
@@ -79,9 +79,9 @@ describe('serialize', function() {
                 { block: 'link' },
                 { elem: 'control' },
                 { mods: { disabled: true } },
-                { block: 'label', elem: 'first', mods: { color: 'red' } }
+                { block: 'label', elem: 'first', elemMods: { color: 'red' } }
             ]}).should.equal(
-                '<div class="button link button__control button_disabled label__first label__first_color_red"></div>'
+                '<div class="button link button__control  button_disabled label__first label__first_color_red"></div>'
             );
         });
     });

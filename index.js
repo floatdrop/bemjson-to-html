@@ -13,12 +13,12 @@ function BEMJSON (options) {
     this._options = options;
 }
 
-BEMJSON.prototype.bemClasses = function bemClasses(bemjson, block) {
-    block = bemjson.block || block;
+BEMJSON.prototype.bemClasses = function bemClasses(bemjson, argBlock) {
+    var block = bemjson.block || argBlock;
     if (bemjson.bem === false || !block) { return ''; }
 
     var base = block + (bemjson.elem ? '__' + bemjson.elem : '');
-    var res = base;
+    var res = (base === argBlock) ? '' : base;
     var mods = bemjson.elem ? bemjson.elemMods : bemjson.mods;
 
     if (mods) {
@@ -29,7 +29,9 @@ BEMJSON.prototype.bemClasses = function bemClasses(bemjson, block) {
 
     if (bemjson.mix) {
         for (var i = 0; i < bemjson.mix.length; i++) {
-            res += ' ' + bemClasses(bemjson.mix[i], bemjson.block);
+            var mix = bemjson.mix[i];
+            if (mix === undefined || mix === null) { continue; }
+            res += ' ' + bemClasses(mix, block);
         }
     }
 
@@ -37,7 +39,7 @@ BEMJSON.prototype.bemClasses = function bemClasses(bemjson, block) {
 };
 
 BEMJSON.prototype.classes = function classes(bemjson) {
-    var cls = this.bemClasses(bemjson);
+    var cls = (bemjson.bem !== false && bemjson.block) ? this.bemClasses(bemjson) : '';
     if (bemjson.cls) { cls += ' ' + bemjson.cls; }
     if (bemjson.js || bemjson.hasJsParams) { cls += ' i-bem'; }
     if (cls === '') { return ''; }
@@ -59,7 +61,7 @@ BEMJSON.prototype.fillJsParamsFromMixins = function fillJsParamsFromMixins(json)
     var mixes = json.mix;
     for (var i = 0; i < mixes.length; i++) {
         var mix = mixes[i];
-        if (mix.js) {
+        if (mix && mix.js) {
             json.jsParams = json.jsParams || {};
             mix.js = mix.js === true ? {} : mix.js;
             json.jsParams[(mix.block || json.block) + (mix.elem ? '__' + mix.elem : '')] = mix.js;
@@ -76,7 +78,7 @@ BEMJSON.prototype.concatinateArray = function concatinateArray(array) {
     return res;
 };
 
-BEMJSON.prototype.toHtml = function toHtml(bemjson, options) {
+BEMJSON.prototype.toHtml = function toHtml(bemjson) {
     if (typeof bemjson !== 'object') {
         return bemjson;
     }
@@ -84,6 +86,8 @@ BEMJSON.prototype.toHtml = function toHtml(bemjson, options) {
     if (Array.isArray(bemjson)) {
         return this.concatinateArray(bemjson);
     }
+
+    if (!bemjson) { return bemjson + ''; }
 
     if (bemjson.tag === false) { return this.toHtml(bemjson.content || ''); }
 
