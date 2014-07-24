@@ -1,10 +1,12 @@
 /* global suite, bench, set */
 
-var serialize = require('..');
+var BEMJSON = require('..');
 var bh = new (require('bh').BH)();
 var escape = require('../escape.js');
 
-var bemjson = {
+var bemjson = new BEMJSON();
+
+var data = {
     block: 'html',
     tag: 'html',
     js: {
@@ -14,23 +16,23 @@ var bemjson = {
 
 suite('stringify', function () {
     bench('stringify (no escaping)', function () {
-        return '<' + bemjson.tag + 'onclick="' + JSON.stringify(bemjson.js) + '"></' + bemjson.tag + '>';
+        return '<' + data.tag + 'onclick="' + JSON.stringify(data.js) + '"></' + data.tag + '>';
     });
 
     bench('stringify (escaped with replace)', function () {
-        return '<' + bemjson.tag + 'onclick="' + JSON.stringify(bemjson.js).replace(/"/g, '&quot;') + '"></' + bemjson.tag + '>';
+        return '<' + data.tag + 'onclick="' + JSON.stringify(data.js).replace(/"/g, '&quot;') + '"></' + data.tag + '>';
     });
 
     bench('stringify (escaped)', function () {
-        return '<' + bemjson.tag + 'onclick="' + escape(JSON.stringify(bemjson.js)) + '"></' + bemjson.tag + '>';
+        return '<' + data.tag + 'onclick="' + escape(JSON.stringify(data.js)) + '"></' + data.tag + '>';
     });
 
     bench('bemhtml-to-html', function () {
-        serialize(bemjson);
+        bemjson.toHtml(data);
     });
 
     bench('bh', function () {
-        bh.toHtml(bemjson);
+        bh.toHtml(data);
     });
 });
 

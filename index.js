@@ -1,6 +1,19 @@
 var escape = require('./escape.js');
 
-function bemClasses(bemjson, block) {
+var _jsAttrName = 'onclick';
+var _defaultTag = 'div';
+
+function BEMJSON (options) {
+    options = options || {};
+    options.jsAttrScheme = options.jsAttrScheme || 'js';
+    options.jsAttrName = options.jsAttrName || _jsAttrName;
+    options.jsAttrIsJs = options.jsAttrScheme === 'js';
+    options.defaultTag = options.defaultTag || _defaultTag;
+
+    this._options = options;
+}
+
+BEMJSON.prototype.bemClasses = function bemClasses(bemjson, block) {
     block = bemjson.block || block;
     if (bemjson.bem === false || !block) { return ''; }
 
@@ -21,26 +34,26 @@ function bemClasses(bemjson, block) {
     }
 
     return res;
-}
+};
 
-function classes(bemjson) {
-    var cls = bemClasses(bemjson);
+BEMJSON.prototype.classes = function classes(bemjson) {
+    var cls = this.bemClasses(bemjson);
     if (bemjson.cls) { cls += ' ' + bemjson.cls; }
     if (bemjson.js || bemjson.hasJsParams) { cls += ' i-bem'; }
     if (cls === '') { return ''; }
     return ' class="' + escape(cls) + '"';
-}
+};
 
-function attributes(json) {
+BEMJSON.prototype.attributes = function attributes(json) {
     if (!json.attrs) { return ''; }
     var attrs = '';
     for (var key in json.attrs) {
         attrs = attrs + ' ' + key + '="' + escape(json.attrs[key]) + '"';
     }
     return attrs;
-}
+};
 
-function fillJsParamsFromMixins(json) {
+BEMJSON.prototype.fillJsParamsFromMixins = function fillJsParamsFromMixins(json) {
     if (!json.mix) { return; }
 
     var mixes = json.mix;
@@ -52,51 +65,42 @@ function fillJsParamsFromMixins(json) {
             json.jsParams[(mix.block || json.block) + (mix.elem ? '__' + mix.elem : '')] = mix.js;
         }
     }
+};
 
-}
 
-var _jsAttrName = 'onclick';
-var _defaultTag = 'div';
-
-function concatinateArray(array) {
+BEMJSON.prototype.concatinateArray = function concatinateArray(array) {
     var res = '';
     for (var i = 0; i < array.length; i++) {
-        res += serialize(array[i]);
+        res += this.toHtml(array[i]);
     }
     return res;
-}
+};
 
-function serialize(bemjson, options) {
-    options = options || {};
-    options.jsAttrScheme = options.jsAttrScheme || 'js';
-    options.jsAttrName = options.jsAttrName || _jsAttrName;
-    options.jsAttrIsJs = options.jsAttrScheme === 'js';
-    options.defaultTag = options.defaultTag || _defaultTag;
-
+BEMJSON.prototype.toHtml = function toHtml(bemjson, options) {
     if (typeof bemjson !== 'object') {
         return bemjson;
     }
 
     if (Array.isArray(bemjson)) {
-        return concatinateArray(bemjson);
+        return this.concatinateArray(bemjson);
     }
 
-    if (bemjson.tag === false) { return serialize(bemjson.content || ''); }
+    if (bemjson.tag === false) { return this.toHtml(bemjson.content || ''); }
 
     if (bemjson.js) {
         bemjson.jsParams = bemjson.jsParams || {};
         bemjson.jsParams[bemjson.block + (bemjson.elem ? '__' + bemjson.elem : '')] = bemjson.js === true ? {} : bemjson.js;
     }
 
-    fillJsParamsFromMixins(bemjson);
+    this.fillJsParamsFromMixins(bemjson);
 
-    bemjson.tag = bemjson.tag || options.defaultTag;
-    var res = '<' + bemjson.tag + classes(bemjson) + attributes(bemjson);
+    bemjson.tag = bemjson.tag || this._options.defaultTag;
+    var res = '<' + bemjson.tag + this.classes(bemjson) + this.attributes(bemjson);
 
     if (bemjson.jsParams || bemjson.hasMixJsParams) {
         var jsData = JSON.stringify(bemjson.jsParams).replace(/"/g, '&quot;');
-        bemjson.jsAttr = bemjson.jsAttr || options.jsAttrName;
-        res += ' ' + bemjson.jsAttr + '="' + (options.jsAttrIsJs ? 'return ' + jsData : jsData) + '"';
+        bemjson.jsAttr = bemjson.jsAttr || this._options.jsAttrName;
+        res += ' ' + bemjson.jsAttr + '="' + (this._options.jsAttrIsJs ? 'return ' + jsData : jsData) + '"';
     }
 
     var tag = bemjson.tag;
@@ -118,7 +122,8 @@ function serialize(bemjson, options) {
         tag === 'track' ||
         tag === 'wbr') { return res + '/>'; }
 
-    return res + '>' + serialize(bemjson.content || '') + '</' + bemjson.tag + '>';
-}
+    return res + '>' + this.toHtml(bemjson.content || '') + '</' + bemjson.tag + '>';
+};
 
-module.exports = serialize;
+
+module.exports = BEMJSON;

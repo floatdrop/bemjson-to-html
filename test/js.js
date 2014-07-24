@@ -1,12 +1,11 @@
 /* global describe, it */
 
-var bemjson2html = require('..');
+var bemjson = new (require('..'))();
 require('should');
 
 describe('js property', function () {
     it('should add i-bem class to bemclasses', function () {
-        var bemjson = { block: 'button', js: true };
-        bemjson2html(bemjson)
-        .should.equal('<div class="button i-bem" onclick="return {&quot;button&quot;:{}}"></div>');
+        var data = { block: 'button', js: true };
+        bemjson.toHtml(data).should.equal('<div class="button i-bem" onclick="return {&quot;button&quot;:{}}"></div>');
     });
 });

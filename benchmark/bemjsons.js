@@ -1,10 +1,12 @@
 /* global suite, bench, set */
 
-var serialize = require('..');
+var BEMJSON = require('..');
 var bh = new (require('bh').BH)();
 
+var bemjson = new BEMJSON();
+
 function versus(json) {
-    bench('bemhtml-to-html', function () { serialize(json); });
+    bench('bemhtml-to-html', function () { bemjson.toHtml(json); });
     bench('bh', function () { bh.toHtml(json); });
 }
 
