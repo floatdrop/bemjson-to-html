@@ -75,6 +75,8 @@ function serialize(bemjson) {
         return concatinateArray(bemjson);
     }
 
+    if (bemjson.tag === false) { return serialize(bemjson.content || ''); }
+
     if (bemjson.js) {
         bemjson.jsParams = bemjson.jsParams || {};
         bemjson.jsParams[bemjson.block + (bemjson.elem ? '__' + bemjson.elem : '')] = bemjson.js === true ? {} : bemjson.js;
