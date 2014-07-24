@@ -1,6 +1,6 @@
 /* global describe, it */
 
-var bemjson = new (require('..'));
+var bemjson = new (require('..'))();
 require('should');
 
 describe('cls property', function () {

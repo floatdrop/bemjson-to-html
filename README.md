@@ -5,7 +5,17 @@ This is optimized part of jsot-bh for generation HTML from constructed BEMJSON.
 
 ## API
 
-### serialize(bemjson)
+### new BEMJSON([options])
+
+Creates serializer object.
+
+__Options__:
+
+ * `jsAttrScheme` _Boolean_ - If `js`, attribute with js params will be prefixed with `return ` (default: `js`).
+ * `jsAttrName` _String_ - Specifies name of attribute, that will contain `jsParams` (default: `onclick`).
+ * `defaultTag` _String_ - Default tag name for block without `tag` property (default: `div`).
+
+### BEMJSON.toHtml(bemjson)
 
 Returns serialized HTML string.
 
