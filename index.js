@@ -68,7 +68,9 @@ function concatinateArray(array) {
 
 function serialize(bemjson, options) {
     options = options || {};
+    options.jsAttrScheme = options.jsAttrScheme || 'js';
     options.jsAttrName = options.jsAttrName || _jsAttrName;
+    options.jsAttrIsJs = options.jsAttrScheme === 'js';
     options.defaultTag = options.defaultTag || _defaultTag;
 
     if (typeof bemjson !== 'object') {
@@ -94,7 +96,7 @@ function serialize(bemjson, options) {
     if (bemjson.jsParams || bemjson.hasMixJsParams) {
         var jsData = JSON.stringify(bemjson.jsParams).replace(/"/g, '&quot;');
         bemjson.jsAttr = bemjson.jsAttr || options.jsAttrName;
-        res += ' ' + bemjson.jsAttr + '="' + (bemjson.jsAttr === options.jsAttrName ? 'return ' + jsData : jsData) + '"';
+        res += ' ' + bemjson.jsAttr + '="' + (options.jsAttrIsJs ? 'return ' + jsData : jsData) + '"';
     }
 
     var tag = bemjson.tag;
