@@ -21,17 +21,17 @@ describe('serialize', function() {
     describe('mods', function() {
         it('should ignore null mods', function() {
             bemjson.toHtml({ block: 'button', tag: 'a', mods: { type: null } }).should.equal(
-                '<a class="button button_type_null"></a>'
+                '<a class="button"></a>'
             );
         });
         it('should ignore empty mods', function() {
             bemjson.toHtml({ block: 'button', tag: 'a', mods: { type: '' } }).should.equal(
-                '<a class="button button_type_"></a>'
+                '<a class="button"></a>'
             );
         });
         it('should not ignore boolean mods', function() {
             bemjson.toHtml({ block: 'button', mods: { visible: false, disabled: true } }).should.equal(
-                '<div class="button button_visible_false button_disabled"></div>'
+                '<div class="button button_disabled"></div>'
             );
         });
     });

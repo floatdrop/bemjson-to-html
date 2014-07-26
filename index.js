@@ -23,14 +23,16 @@ BEMJSON.prototype.bemClasses = function bemClasses(bemjson, argBlock) {
 
     if (mods) {
         for (var i in mods) {
-            res += ' ' + base + '_' + i + (mods[i] === true ? '' : '_' + mods[i]);
+            if (mods[i]) {
+                res += ' ' + base + '_' + i + (mods[i] === true ? '' : '_' + mods[i]);
+            }
         }
     }
 
     if (bemjson.mix) {
         for (var i = 0; i < bemjson.mix.length; i++) {
             var mix = bemjson.mix[i];
-            if (mix === undefined || mix === null) { continue; }
+            if (!mix) { continue; }
             res += ' ' + bemClasses(mix, block);
         }
     }
