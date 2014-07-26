@@ -50,7 +50,10 @@ BEMJSON.prototype.attributes = function attributes(json) {
     if (!json.attrs) { return ''; }
     var attrs = '';
     for (var key in json.attrs) {
-        attrs = attrs + ' ' + key + '="' + escape(json.attrs[key]) + '"';
+        var attr = json.attrs[key];
+        if (attr !== null && attr !== undefined) {
+            attrs = attrs + ' ' + key + '="' + escape(attr) + '"';
+        }
     }
     return attrs;
 };

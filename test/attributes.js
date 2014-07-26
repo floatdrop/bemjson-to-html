@@ -5,9 +5,14 @@ var bemjson = new (require('..'))();
 require('should');
 
 describe('attributes rendering', function () {
-    it('some tricky attributes', function () {
-        var data = { block: 'checkbox', attrs: { type: 'button', disabled: false, value: null } };
-        bemjson.toHtml(data)
-        .should.equal('<div class=\"checkbox\" type=\"button\" disabled=\"false\" value=\"null\"></div>');
+    it('should ignore null attrs', function() {
+        bemjson.toHtml({ block: 'button', tag: 'a', attrs: { href: null } }).should.equal(
+            '<a class="button"></a>'
+        );
+    });
+    it('should not ignore empty attrs', function() {
+        bemjson.toHtml({ block: 'button', tag: 'a', attrs: { href: '' } }).should.equal(
+            '<a class="button" href=""></a>'
+        );
     });
 });

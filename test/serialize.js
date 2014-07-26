@@ -18,19 +18,6 @@ describe('serialize', function() {
         });
     });
 
-    describe('attrs', function() {
-        it('should not ignore null attrs', function() {
-            bemjson.toHtml({ block: 'button', tag: 'a', attrs: { href: null } }).should.equal(
-                '<a class="button" href="null"></a>'
-            );
-        });
-        it('should not ignore empty attrs', function() {
-            bemjson.toHtml({ block: 'button', tag: 'a', attrs: { href: '' } }).should.equal(
-                '<a class="button" href=""></a>'
-            );
-        });
-    });
-
     describe('mods', function() {
         it('should ignore null mods', function() {
             bemjson.toHtml({ block: 'button', tag: 'a', mods: { type: null } }).should.equal(
