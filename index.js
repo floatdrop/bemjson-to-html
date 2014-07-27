@@ -30,6 +30,7 @@ BEMJSON.prototype.bemClasses = function bemClasses(bemjson, argBlock) {
     }
 
     if (bemjson.mix) {
+        if (!Array.isArray(bemjson.mix)) { bemjson.mix = [bemjson.mix]; }
         for (var i = 0; i < bemjson.mix.length; i++) {
             var mix = bemjson.mix[i];
             if (!mix) { continue; }

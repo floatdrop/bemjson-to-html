@@ -13,4 +13,10 @@ describe('mix property', function () {
         var data = { block: 'button', mix: [{ elem: 'control', elemMods: { disabled: true } }]};
         bemjson.toHtml(data).should.equal('<div class="button button__control button__control_disabled"></div>');
     });
+
+    it('should mixup object', function () {
+        var data = { block: 'button', elem: 'section', mix: { block: 'button', elem: 'scroll-compensator' }};
+        bemjson.toHtml(data)
+        .should.equal('<div class="button__section button__scroll-compensator"></div>');
+    });
 });
