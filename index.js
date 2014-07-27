@@ -19,7 +19,7 @@ BEMJSON.prototype.bemClasses = function bemClasses(bemjson, argBlock) {
 
     var base = block + (bemjson.elem ? '__' + bemjson.elem : '');
     var res = (base === argBlock) ? '' : base;
-    var mods = bemjson.elem ? bemjson.elemMods : bemjson.mods;
+    var mods = bemjson.elem ? bemjson.elemMods || bemjson.mods : bemjson.mods;
 
     if (mods) {
         for (var i in mods) {
