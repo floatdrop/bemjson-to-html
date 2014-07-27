@@ -44,7 +44,7 @@ BEMJSON.prototype.bemClasses = function bemClasses(bemjson, argBlock) {
 BEMJSON.prototype.classes = function classes(bemjson) {
     var cls = (bemjson.bem !== false && bemjson.block) ? this.bemClasses(bemjson) : '';
     if (bemjson.cls) { cls += ' ' + bemjson.cls; }
-    if (bemjson.js || bemjson.hasJsParams) { cls += ' i-bem'; }
+    if (bemjson.jsParams && Object.keys(bemjson.jsParams).length !== 0) { cls += ' i-bem'; }
     if (cls === '') { return ''; }
     return ' class="' + escape(cls) + '"';
 };
@@ -63,7 +63,7 @@ BEMJSON.prototype.attributes = function attributes(json) {
 
 BEMJSON.prototype.fillJsParamsFromMixins = function fillJsParamsFromMixins(json) {
     if (!json.mix) { return; }
-
+    if (!Array.isArray(json.mix)) { json.mix = [json.mix]; }
     var mixes = json.mix;
     for (var i = 0; i < mixes.length; i++) {
         var mix = mixes[i];
@@ -114,7 +114,7 @@ BEMJSON.prototype.toHtml = function toHtml(bemjson) {
     if (bemjson.jsParams || bemjson.hasMixJsParams) {
         var jsData = JSON.stringify(bemjson.jsParams).replace(/"/g, '&quot;');
         bemjson.jsAttr = bemjson.jsAttr || this._options.jsAttrName;
-        res += ' ' + bemjson.jsAttr + '="' + (this._options.jsAttrIsJs ? 'return ' + jsData : jsData) + '"';
+        res += ' ' + bemjson.jsAttr + '="' + (this._options.jsAttrIsJs ? 'return ' + jsData + ';' : jsData) + '"';
     }
 
     var tag = bemjson.tag;
