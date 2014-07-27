@@ -10,7 +10,7 @@ describe('mix property', function () {
     });
 
     it('should mixup mods as elemMods, if mixing to elem', function () {
-        var data = { block: 'button', mix: [{ elem: 'control', mods: { disabled: true } }]};
+        var data = { block: 'button', mix: [{ elem: 'control', elemMods: { disabled: true } }]};
         bemjson.toHtml(data).should.equal('<div class="button button__control button__control_disabled"></div>');
     });
 });
