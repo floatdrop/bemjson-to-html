@@ -78,7 +78,9 @@ BEMJSON.prototype.fillJsParamsFromMixins = function fillJsParamsFromMixins(json)
 BEMJSON.prototype.concatinateArray = function concatinateArray(array) {
     var res = '';
     for (var i = 0; i < array.length; i++) {
-        res += this.toHtml(array[i]);
+        if (array[i] !== undefined && array[i] !== false && array[i] !== null) {
+            res += this.toHtml(array[i]);
+        }
     }
     return res;
 };

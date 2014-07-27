@@ -14,7 +14,7 @@ describe('serialize', function() {
                 '',
                 { content: false }, // `div` is here
                 { tag: false }
-            ]).should.equal('falsenullundefined<div></div>');
+            ]).should.equal('<div></div>');
         });
     });
 
