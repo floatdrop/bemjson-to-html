@@ -86,6 +86,8 @@ BEMJSON.prototype.concatinateArray = function concatinateArray(array) {
 };
 
 BEMJSON.prototype.toHtml = function toHtml(bemjson) {
+    if (bemjson === undefined || bemjson === false || bemjson === null) { return ''; }
+
     if (typeof bemjson !== 'object') {
         return bemjson;
     }
@@ -133,7 +135,7 @@ BEMJSON.prototype.toHtml = function toHtml(bemjson) {
         tag === 'track' ||
         tag === 'wbr') { return res + '/>'; }
 
-    return res + '>' + this.toHtml(bemjson.content || '') + '</' + bemjson.tag + '>';
+    return res + '>' + this.toHtml(bemjson.content) + '</' + bemjson.tag + '>';
 };
 
 
