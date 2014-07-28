@@ -19,4 +19,10 @@ describe('mix property', function () {
         bemjson.toHtml(data)
         .should.equal('<div class="button__section button__scroll-compensator"></div>');
     });
+
+    it('should mix block name to classes', function () {
+        var data = { block: 'button', mix: { block: 'i-global' }};
+        bemjson.toHtml(data)
+        .should.equal('<div class="button i-global"></div>');
+    });
 });
