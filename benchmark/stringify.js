@@ -27,7 +27,7 @@ suite('stringify', function () {
         return '<' + data.tag + 'onclick="' + escape(JSON.stringify(data.js)) + '"></' + data.tag + '>';
     });
 
-    bench('bemhtml-to-html', function () {
+    bench('bemjson-to-html', function () {
         bemjson.toHtml(data);
     });
 
@@ -35,4 +35,3 @@ suite('stringify', function () {
         bh.toHtml(data);
     });
 });
-

@@ -6,7 +6,7 @@ var bh = new (require('bh').BH)();
 var bemjson = new BEMJSON();
 
 function versus(json) {
-    bench('bemhtml-to-html', function () { bemjson.toHtml(json); });
+    bench('bemjson-to-html', function () { bemjson.toHtml(json); });
     bench('bh', function () { bh.toHtml(json); });
 }
 

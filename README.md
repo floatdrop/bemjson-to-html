@@ -22,24 +22,24 @@ Returns serialized HTML string.
 ## Benchmark
 
 ```
-                      trivial
-       4,285,259 op/s » bemhtml-to-html
-       2,251,371 op/s » bh
+trivial
+4,133,717 op/s » bemjson-to-html
+2,371,357 op/s » bh
 
-                      simple
-         115,874 op/s » bemhtml-to-html
-          76,086 op/s » bh
+simple
+109,658 op/s » bemjson-to-html
+78,604 op/s » bh
 
-                      full
-          29,617 op/s » bemhtml-to-html
-          19,726 op/s » bh
+full
+27,264 op/s » bemjson-to-html
+23,367 op/s » bh
 
-                      stringify
-       1,302,816 op/s » stringify (no escaping)
-         743,184 op/s » stringify (escaped with replace)
-         394,414 op/s » stringify (escaped)
-         334,502 op/s » bemhtml-to-html
-         200,157 op/s » bh
+stringify
+1,508,587 op/s » stringify (no escaping)
+843,899 op/s » stringify (escaped with replace)
+388,025 op/s » stringify (escaped)
+312,156 op/s » bemjson-to-html
+220,219 op/s » bh
 ```
 
 ## License
