@@ -72,4 +72,17 @@ describe('serialize', function() {
             );
         });
     });
+
+    describe('elem', function() {
+        it('should set class to elem inside content', function() {
+            bemjson.toHtml({
+                block: 'button',
+                content: [
+                    { elem: 'control' }
+                ]
+            }).should.equal(
+                '<div class="button"><div class="button__control"></div></div>'
+            );
+        });
+    })
 });

@@ -41,8 +41,11 @@ BEMJSON.prototype.bemClasses = function bemClasses(bemjson, argBlock) {
     return res;
 };
 
-BEMJSON.prototype.classes = function classes(bemjson) {
-    var cls = (bemjson.bem !== false && bemjson.block) ? this.bemClasses(bemjson) : '';
+BEMJSON.prototype.classes = function classes(bemjson, ctxBlock) {
+    if (ctxBlock && bemjson.elem && !bemjson.block) {
+        bemjson.block = ctxBlock;
+    }
+    var cls = (bemjson.bem !== false && (bemjson.block || ctxBlock)) ? this.bemClasses(bemjson) : '';
     if (bemjson.cls) { cls += ' ' + bemjson.cls; }
     if (bemjson.jsParams && Object.keys(bemjson.jsParams).length !== 0) { cls += ' i-bem'; }
     if (cls === '') { return ''; }
@@ -76,30 +79,34 @@ BEMJSON.prototype.fillJsParamsFromMixins = function fillJsParamsFromMixins(json)
 };
 
 
-BEMJSON.prototype.concatinateArray = function concatinateArray(array) {
+BEMJSON.prototype.concatinateArray = function concatinateArray(array, ctxBlock) {
     var res = '';
     for (var i = 0; i < array.length; i++) {
         if (array[i] !== undefined && array[i] !== false && array[i] !== null) {
-            res += this.toHtml(array[i]);
+            res += this.toHtml(array[i], ctxBlock);
         }
     }
     return res;
 };
 
-BEMJSON.prototype.toHtml = function toHtml(bemjson) {
+BEMJSON.prototype.toHtml = function toHtml(bemjson, ctxBlock) {
     if (bemjson === undefined || bemjson === false || bemjson === null) { return ''; }
 
     if (typeof bemjson !== 'object') {
         return bemjson;
     }
 
+    if (bemjson.block) {
+        ctxBlock = bemjson.block;
+    }
+
     if (Array.isArray(bemjson)) {
-        return this.concatinateArray(bemjson);
+        return this.concatinateArray(bemjson, ctxBlock);
     }
 
     if (!bemjson) { return bemjson + ''; }
 
-    if (bemjson.tag === false) { return this.toHtml(bemjson.content || ''); }
+    if (bemjson.tag === false) { return this.toHtml(bemjson.content || '', ctxBlock); }
 
     if (bemjson.js) {
         bemjson.jsParams = bemjson.jsParams || {};
@@ -109,7 +116,7 @@ BEMJSON.prototype.toHtml = function toHtml(bemjson) {
     this.fillJsParamsFromMixins(bemjson);
 
     bemjson.tag = bemjson.tag || this._options.defaultTag;
-    var res = '<' + bemjson.tag + this.classes(bemjson) + this.attributes(bemjson);
+    var res = '<' + bemjson.tag + this.classes(bemjson, ctxBlock) + this.attributes(bemjson);
 
     if (bemjson.jsParams || bemjson.hasMixJsParams) {
         var jsData = JSON.stringify(bemjson.jsParams).replace(/"/g, '&quot;');
@@ -136,7 +143,7 @@ BEMJSON.prototype.toHtml = function toHtml(bemjson) {
         tag === 'track' ||
         tag === 'wbr') { return res + '/>'; }
 
-    return res + '>' + this.toHtml(bemjson.content) + '</' + bemjson.tag + '>';
+    return res + '>' + this.toHtml(bemjson.content, ctxBlock) + '</' + bemjson.tag + '>';
 };
 
 
