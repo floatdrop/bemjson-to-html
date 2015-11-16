@@ -34,6 +34,11 @@ describe('serialize', function() {
                 '<div class="button button_disabled"></div>'
             );
         });
+        it('should not ignore zero mods', function() {
+            bemjson.toHtml({ block: 'button', mods: { num: 0 } }).should.equal(
+                '<div class="button button_num_0"></div>'
+            );
+        });
     });
 
     describe('mix', function() {
